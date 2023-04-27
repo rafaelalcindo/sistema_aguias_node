@@ -9,6 +9,7 @@ import { has } from 'lodash';
 
 interface IQueries {
     search?: string;
+    ativo?: boolean;
     orderName?: string;
     dateInicial?: Date;
     dateEnd?: Date;
@@ -45,6 +46,13 @@ class UsuarioRepository extends Repository<Usuario> {
                 &&
                 DATE(${alias}) >= :dateInicial
               `, { dateEnd: query.dateEnd, dateInicial: query.dateInicial })
+            }
+        }
+
+        if (query.ativo) {
+            where = {
+                ...where,
+                ativo: query.ativo
             }
         }
 
