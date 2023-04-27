@@ -27,7 +27,7 @@ class UsuarioRepository extends Repository<Usuario> {
         let where = {};
         let order = {};
         let page = query.page || 1;
-        let limit = query.limit || 8;
+        let limit = query.limit || 100;
         let whereSend = {};
 
         if (query.search) {
@@ -104,7 +104,7 @@ class UsuarioRepository extends Repository<Usuario> {
         return usuario;
     }
 
-    public async updateUsuario(id: string, usuarioData: IUsuario): Promise<any> {
+    public async updateUsuario(id: number, usuarioData: IUsuario): Promise<any> {
         const usuario = await this.findOne({ where: { id } });
 
         if (usuarioData.password) {
@@ -119,7 +119,7 @@ class UsuarioRepository extends Repository<Usuario> {
         return await this.update(id, usuarioObj);
     }
 
-    public async deleteUsuario(id: string): Promise<any> {
+    public async deleteUsuario(id: number): Promise<any> {
         return await this.delete(id);
     }
 }

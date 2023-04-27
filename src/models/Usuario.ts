@@ -22,6 +22,9 @@ class Usuario {
     @Column({ length: 100 })
     nome: string;
 
+    @Column({ length: 100 })
+    sobrenome: string;
+
     @IsUniq({ message: 'Esse login já está cadastrado' })
     @Column({ length: 100 })
     login: string;
