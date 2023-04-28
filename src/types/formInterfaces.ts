@@ -47,4 +47,19 @@ interface IPontoIndividual {
     usuario_id: number;
 }
 
-export { IUsuario, IUnidade, IPontoUnidade, IPontoIndividual };
+interface IEventos {
+    id?: number;
+    titulo: string;
+    descricao: string;
+    data_evento: Date;
+    ponto_evento: number;
+    pontos_adicionados: boolean;
+}
+
+export {
+    IUsuario,
+    IUnidade,
+    IPontoUnidade,
+    IPontoIndividual,
+    IEventos
+};
