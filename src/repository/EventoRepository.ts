@@ -1,4 +1,5 @@
 import { EntityRepository, Like, Repository, Raw } from 'typeorm';
+import momentTz from 'moment-timezone';
 import moment from 'moment-timezone';
 
 import CrudRepository from './CrudRepository';
@@ -78,6 +79,8 @@ class EventoRepository extends Repository<Evento> {
         eventoCreate.created_at = new Date();
         eventoCreate.updated_at = new Date();
 
+        eventoCreate.data_evento = momentTz.tz(eventoCreate.data_evento, 'America/Sao_Paulo').format() as any;
+
         return await this.save(eventoCreate);
     }
 
@@ -100,6 +103,8 @@ class EventoRepository extends Repository<Evento> {
         }
 
         eventoObj.updated_at = new Date();
+
+        eventoObj.data_evento = momentTz.tz(eventoObj.data_evento, 'America/Sao_Paulo').format() as any;
 
         return await this.update(id, eventoObj);
     }
