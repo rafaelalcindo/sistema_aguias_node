@@ -56,10 +56,19 @@ interface IEventos {
     pontos_adicionados: boolean;
 }
 
+interface IDesbravadorEvento {
+    id?: number;
+    usuario_id: number;
+    usuario?: IUsuario;
+    evento_id: number;
+    evento?: IEventos;
+}
+
 export {
     IUsuario,
     IUnidade,
     IPontoUnidade,
     IPontoIndividual,
-    IEventos
+    IEventos,
+    IDesbravadorEvento
 };
