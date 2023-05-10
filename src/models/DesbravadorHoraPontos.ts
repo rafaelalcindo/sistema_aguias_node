@@ -1,33 +1,36 @@
 import {
     Entity, Column,
     PrimaryGeneratedColumn,
+    ManyToMany,
     JoinColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    ManyToOne
+    JoinTable,
+    ManyToOne,
+    OneToMany
 } from 'typeorm';
 
-import Evento from './Evento';
+import HoraPontos from './HoraPontos';
 import Usuario from './Usuario';
 
-@Entity('desbravador_evento')
-class DesbravadorEvento {
+@Entity('desbravador_hora_pontos')
+class DesbravadorHoraPontos {
     @PrimaryGeneratedColumn('increment')
     id: number;
 
     @Column()
-    usuario_id: number;
+    data_chegada: Date;
+
+    @Column()
+    hora_chegada: string;
 
     @ManyToOne(() => Usuario)
     @JoinColumn({ name: 'usuario_id' })
     usuario: Usuario;
 
-    @Column()
-    evento_id: number;
-
-    @ManyToOne(() => Evento)
-    @JoinColumn({ name: 'evento_id' })
-    evento: Evento;
+    @ManyToOne(() => HoraPontos)
+    @JoinColumn({ name: 'hora_ponto_id' })
+    horaPonto: HoraPontos;
 
     @CreateDateColumn()
     created_at: Date;
@@ -36,4 +39,4 @@ class DesbravadorEvento {
     updated_at: Date;
 }
 
-export default DesbravadorEvento;
+export default DesbravadorHoraPontos;

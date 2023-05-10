@@ -72,6 +72,16 @@ interface IHoraPontos {
     pontos: number;
 }
 
+interface IDesbravadorHoraPonto {
+    id?: number;
+    usuario_id: number;
+    usuario?: IUsuario;
+    hora_ponto_id: number;
+    hora_ponto: IHoraPontos;
+    data_chegada: Date;
+    hora_chegada: string;
+}
+
 export {
     IUsuario,
     IUnidade,
@@ -79,5 +89,6 @@ export {
     IPontoIndividual,
     IEventos,
     IDesbravadorEvento,
-    IHoraPontos
+    IHoraPontos,
+    IDesbravadorHoraPonto
 };
