@@ -64,11 +64,20 @@ interface IDesbravadorEvento {
     evento?: IEventos;
 }
 
+interface IHoraPontos {
+    id?: number;
+    descricao: string;
+    data_programacao: Date;
+    hora_programacao: string;
+    pontos: number;
+}
+
 export {
     IUsuario,
     IUnidade,
     IPontoUnidade,
     IPontoIndividual,
     IEventos,
-    IDesbravadorEvento
+    IDesbravadorEvento,
+    IHoraPontos
 };
