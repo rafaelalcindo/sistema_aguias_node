@@ -7,6 +7,7 @@ import usuarioRouter from "./usuario.routes";
 import eventoRouter from "./evento.routes";
 import desbravadorEventoRouter from "./desbravadorEvento.routes";
 import horaPontoRouter from "./horaPonto.routes";
+import desbravadorHoraPontoRouter from "./desbravadorHoraPonto";
 
 const routes = Router();
 
@@ -23,6 +24,7 @@ routes.use('/pontoindividual', pontoIndividualRouter);
 routes.use('/evento', eventoRouter);
 routes.use('/desbravadorevento', desbravadorEventoRouter);
 routes.use('/horaponto', horaPontoRouter);
+routes.use('/desbravadorhoraponto', desbravadorHoraPontoRouter);
 
 
 export default routes;

@@ -1,4 +1,5 @@
 import { EntityRepository, Like, Repository, Raw } from 'typeorm';
+import moment from 'moment';
 
 import CrudRepository from './CrudRepository';
 import HoraPontoController from '../controller/HoraPontoController';
@@ -18,6 +19,12 @@ interface IQueries {
     orderDirection?: string;
     page?: number;
     limit?: number;
+}
+
+interface IDbvHoraPonto {
+    usuario_id: number;
+    hora_ponto_id: number;
+    data_chegada: Date;
 }
 
 @EntityRepository(DesbravadorHoraPontos)
@@ -143,6 +150,43 @@ class DesbravadorHoraPontoRepository extends Repository<DesbravadorHoraPontos> {
     }
 
     //** Adicionar os registros de hora pontos */
+
+    public async adicionarHoraPonto(DbvHotaPonto: IDbvHoraPonto) {
+        const horaPonto = await this.horaPontoController.getHoraPonto(DbvHotaPonto.hora_ponto_id);
+        const dataChegada = moment(DbvHotaPonto.data_chegada);
+        const dataMarcada = moment(`${moment.utc(horaPonto.data_programacao).format('YYYY-MM-DD')} ${horaPonto.hora_programacao}`);
+
+        const diffDates = dataChegada.diff(dataMarcada, 'minutes')
+
+        let addPontos = 0;
+
+        if (diffDates <= 1) {
+            addPontos = horaPonto.pontos;
+        } else if (diffDates <= 8) {
+            addPontos = Math.ceil((horaPonto.pontos / 2));
+        } else if (diffDates <= 60) {
+            addPontos = Math.ceil((horaPonto.pontos / 3));
+        }
+
+        const PontoIndividualObj = {
+            pontos: addPontos,
+            descricao: `Chagada na hora marcada as ${dataMarcada.format('DD/MM/YYYY hh:mm:ss')}, a hora em que chegou foi ${dataChegada.format('DD/MM/YYYY hh:mm:ss')}`,
+            data_pontos: new Date(),
+            usuario_id: DbvHotaPonto.usuario_id
+        }
+
+        const pontoIndividualCreated = await this.pontoIndividualController.createPontoIndividual(PontoIndividualObj);
+
+        const desbravadorHoraPontosObj = {
+            usuario_id: DbvHotaPonto.usuario_id,
+            hora_ponto_id: horaPonto.id,
+            data_chegada: dataChegada.toDate(),
+            hora_chegada: dataChegada.format('hh:mm:ss'),
+            ponto_individual_id: pontoIndividualCreated.id
+        }
+
+        return await this.createDesbravadorPontoHora(desbravadorHoraPontosObj);
+    }
 }
 
 export default DesbravadorHoraPontoRepository;

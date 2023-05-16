@@ -35,4 +35,9 @@ desbravadorHoraPontoRouter.delete('/delete/:id', ensureAuthenticated, async (req
     return response.json(result);
 });
 
+desbravadorHoraPontoRouter.post('/adicionarhoraponto', ensureAuthenticated, async (request, response) => {
+    const result = await desbravadorHoraPontoController.adicionarDesbravadorHoraPonto(request.body);
+    return response.json(result);
+});
+
 export default desbravadorHoraPontoRouter;

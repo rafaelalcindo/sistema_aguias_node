@@ -4,6 +4,12 @@ import DesbravadorHoraPontoRepository from "../repository/DesbravadorHoraPontoRe
 import DesbravadorHoraPontos from "../models/DesbravadorHoraPontos";
 import { IDesbravadorHoraPonto } from "../types/formInterfaces";
 
+interface IDbvHoraPonto {
+    usuario_id: number;
+    hora_ponto_id: number;
+    data_chegada: Date;
+}
+
 class DesbravadorHoraPontoController {
     public async indexDesbravadorHoraPonto(request: Request) {
         const desbravadorHoraPontoRepository = getCustomRepository(DesbravadorHoraPontoRepository);
@@ -36,6 +42,11 @@ class DesbravadorHoraPontoController {
     /*
         Funções especiais
      */
+
+    public async adicionarDesbravadorHoraPonto(desbravadorHoraPonto: IDbvHoraPonto): Promise<any> {
+        const desbravadorHoraPontoRepository = getCustomRepository(DesbravadorHoraPontoRepository);
+        return desbravadorHoraPontoRepository.adicionarHoraPonto(desbravadorHoraPonto);
+    }
 }
 
 export default DesbravadorHoraPontoController;

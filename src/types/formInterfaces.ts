@@ -1,3 +1,4 @@
+import moment = require("moment");
 interface IUsuario {
     id?: number;
     nome: string;
@@ -77,9 +78,11 @@ interface IDesbravadorHoraPonto {
     usuario_id: number;
     usuario?: IUsuario;
     hora_ponto_id: number;
-    hora_ponto: IHoraPontos;
+    hora_ponto?: IHoraPontos;
     data_chegada: Date;
     hora_chegada: string;
+    ponto_individual_id?: number;
+    ponto_individual?: IPontoIndividual;
 }
 
 export {
