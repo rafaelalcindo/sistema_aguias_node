@@ -14,6 +14,10 @@ class DashboardController {
     public async GraphOfBars(request: Request) {
         return await this.dashboard.usuariosPontos(request);
     }
+
+    public async GraphOfCircle(request: Request) {
+        return await this.dashboard.unidadePontos(request);
+    }
 }
 
 export default DashboardController;
