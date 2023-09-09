@@ -83,12 +83,15 @@ class UsuarioRepository extends Repository<Usuario> {
             where
         };
 
+        const relations = ['unidade'];
+
         return await this.crudRepository.findAll(
             Usuario,
             whereSend,
             order,
             page,
-            limit
+            limit,
+            relations
         );
     }
 
