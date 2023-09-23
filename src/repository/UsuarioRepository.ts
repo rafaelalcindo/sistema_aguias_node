@@ -32,9 +32,14 @@ class UsuarioRepository extends Repository<Usuario> {
         let whereSend = {};
 
         if (query.search) {
-            where = {
-                fullname: Like(`%${query.search}%`)
-            }
+            where = [
+                {
+                    nome: Like(`%${query.search}%`)
+                },
+                {
+                    sobrenome: Like(`%${query.search}%`)
+                }
+            ]
         }
 
         if (query.dateInicial && query.dateEnd) {
