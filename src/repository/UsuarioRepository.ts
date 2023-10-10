@@ -3,6 +3,8 @@ import { hash } from 'bcryptjs';
 
 import CrudRepository from './CrudRepository';
 
+import QRCodeProvider from '../provider/QRCodeProvider';
+
 import { IUsuario } from '../types/formInterfaces';
 import Usuario from '../models/Usuario';
 import { has } from 'lodash';
@@ -23,6 +25,7 @@ interface IQueries {
 class UsuarioRepository extends Repository<Usuario> {
 
     private crudRepository = new CrudRepository();
+    private qrCodeProvider = new QRCodeProvider();
 
     public async indexUsuario(query: IQueries) {
         let where = {};
@@ -105,7 +108,14 @@ class UsuarioRepository extends Repository<Usuario> {
 
         const usuarioCreate = await this.create(Usuario);
 
-        return await this.save(usuarioCreate);
+        const createdUser = await this.save(usuarioCreate);
+        const pathQrCode = await this.qrCodeProvider.generateQrCode(String(Usuario.id));
+
+        createdUser.qr_code = pathQrCode;
+
+        await this.update(createdUser.id, createdUser);
+
+        return createdUser;
     }
 
     public async getUsuario(id: number): Promise<Usuario | any> {
@@ -131,6 +141,10 @@ class UsuarioRepository extends Repository<Usuario> {
             ...usuario,
             ...usuarioData
         }
+
+        await this.qrCodeProvider.removeQrCode(usuarioObj.qr_code);
+
+        usuarioObj.qr_code = await this.qrCodeProvider.generateQrCode(String(id));
 
         return await this.update(id, usuarioObj);
     }

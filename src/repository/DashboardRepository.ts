@@ -26,6 +26,7 @@ class DashboardRepository {
             .where('usuario.ativo = true')
             .andWhere('YEAR(ponto_individual.data_pontos) = :ano ', { ano: DateToday.format('YYYY') })
             .groupBy('usuario.id')
+            .limit(10)
             .orderBy('pontos', 'DESC')
             .getRawMany();
 
