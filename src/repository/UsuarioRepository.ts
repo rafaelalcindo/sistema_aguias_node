@@ -103,10 +103,13 @@ class UsuarioRepository extends Repository<Usuario> {
         );
     }
 
-    public async createUsuario(Usuario: IUsuario): Promise<Usuario | any> {
+    public async createUsuario(Usuario: IUsuario, fileParam: any): Promise<Usuario | any> {
         Usuario.password = await hash(Usuario.password, 8);
 
         const usuarioCreate = await this.create(Usuario);
+
+        if (Object.keys(fileParam).length > 0)
+            usuarioCreate.foto_perfil = fileParam?.filename;
 
         const createdUser = await this.save(usuarioCreate);
         const pathQrCode = await this.qrCodeProvider.generateQrCode(String(Usuario.id));
@@ -130,11 +133,15 @@ class UsuarioRepository extends Repository<Usuario> {
         return usuario;
     }
 
-    public async updateUsuario(id: number, usuarioData: IUsuario): Promise<any> {
+    public async updateUsuario(id: number, usuarioData: IUsuario, fileParam: any): Promise<any> {
         const usuario = await this.findOne({ where: { id } });
 
         if (usuarioData.password) {
             usuarioData.password = await hash(usuarioData.password, 8);
+        }
+
+        if (fileParam) {
+            usuarioData.foto_perfil = fileParam?.filename;
         }
 
         const usuarioObj = {

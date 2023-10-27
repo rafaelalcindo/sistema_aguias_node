@@ -10,9 +10,9 @@ class UsuarioController {
         return usuarioRepository.indexUsuario(request.query);
     }
 
-    public async createUsuario(usuarioRequest: IUsuario): Promise<Usuario> {
+    public async createUsuario(usuarioRequest: IUsuario, file: any): Promise<Usuario> {
         const usuarioRepository = getCustomRepository(UsuarioRepository);
-        return usuarioRepository.createUsuario(usuarioRequest);
+        return usuarioRepository.createUsuario(usuarioRequest, file);
     }
 
     public async getUsuario(usuarioId: number): Promise<Usuario> {
@@ -20,9 +20,9 @@ class UsuarioController {
         return usuarioRepository.getUsuario(usuarioId);
     }
 
-    public async updateUsuario(usuarioId: number, usuarioRequest: IUsuario): Promise<any> {
+    public async updateUsuario(usuarioId: number, usuarioRequest: IUsuario, file: any): Promise<any> {
         const usuarioRepository = getCustomRepository(UsuarioRepository);
-        return usuarioRepository.updateUsuario(usuarioId, usuarioRequest);
+        return usuarioRepository.updateUsuario(usuarioId, usuarioRequest, file);
     }
 
     public async deleteUsuario(usuarioId: number): Promise<any> {

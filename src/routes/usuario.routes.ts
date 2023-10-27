@@ -1,9 +1,13 @@
 import { response, Router } from "express";
+import multer from "multer";
 import UsuarioRepository from "../repository/UsuarioRepository";
 import UsuarioController from "../controller/UsuarioController";
 import ensureAuthenticated from "../middleware/ensureAuthenticated";
 
+import uploadConfing from '../config/uploads';
+
 const usuarioRouter = Router();
+const upload = multer(uploadConfing);
 
 const usuarioController = new UsuarioController();
 
@@ -17,8 +21,17 @@ usuarioRouter.get('/', async (request, response) => {
     return response.json(usuarios);
 });
 
-usuarioRouter.post('/add', async (request, response) => {
-    const usuario = await usuarioController.createUsuario(request.body);
+usuarioRouter.post('/add', upload.single('file'), async (request, response) => {
+    let fileObj = {};
+    const { file } = request;
+    if (file) {
+        fileObj = {
+            name: file?.originalname,
+            file: file?.filename
+        }
+    }
+
+    const usuario = await usuarioController.createUsuario(request.body, fileObj);
 
     return response.json(usuario)
 });
@@ -29,10 +42,15 @@ usuarioRouter.get('/:id', async (request, response) => {
     return response.json(usuario);
 });
 
-usuarioRouter.put('/update/:id', ensureAuthenticated, async (request, response) => {
+usuarioRouter.put('/update/:id', upload.single("file"), ensureAuthenticated, async (request, response) => {
+
+    let fileObj = {};
+    const { file } = request;
+
     const result = await usuarioController.updateUsuario(
         Number(request.params.id),
-        request.body
+        request.body,
+        file
     );
 
     return response.json(result);

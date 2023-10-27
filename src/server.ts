@@ -30,6 +30,11 @@ app.use(
     express.static(__dirname + '/assets/qrcodes')
 );
 
+app.use(
+    '/profile',
+    express.static(uploadConfig.directory)
+);
+
 app.use((error: Error, request: Request, response: Response, next: NextFunction) => {
     return response.json({
         status: "Error",
