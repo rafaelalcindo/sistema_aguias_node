@@ -4,6 +4,7 @@ import { hash } from 'bcryptjs';
 import CrudRepository from './CrudRepository';
 
 import QRCodeProvider from '../provider/QRCodeProvider';
+import FileProvider from '../provider/FileProvider';
 
 import { IUsuario } from '../types/formInterfaces';
 import Usuario from '../models/Usuario';
@@ -26,6 +27,7 @@ class UsuarioRepository extends Repository<Usuario> {
 
     private crudRepository = new CrudRepository();
     private qrCodeProvider = new QRCodeProvider();
+    private fileProvider = new FileProvider();
 
     public async indexUsuario(query: IQueries) {
         let where = {};
@@ -142,6 +144,9 @@ class UsuarioRepository extends Repository<Usuario> {
 
         if (fileParam) {
             usuarioData.foto_perfil = fileParam?.filename;
+            if (usuario && usuario.foto_perfil) {
+                this.fileProvider.removeFile(usuario.foto_perfil);
+            }
         }
 
         const usuarioObj = {
