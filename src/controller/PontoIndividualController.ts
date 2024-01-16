@@ -29,6 +29,11 @@ class PontoIndividualController {
         const pontoIndividualRepository = getCustomRepository(PontoIndividualRepository);
         return pontoIndividualRepository.deletePontoIndividual(pontoIndividualId);
     }
+
+    public async getTodosPontosPorUsuario(usuario_id: number): Promise<any> {
+        const pontoIndividualRepository = getCustomRepository(PontoIndividualRepository);
+        return pontoIndividualRepository.getTodosPontosPorUsuario(usuario_id);
+    }
 }
 
 export default PontoIndividualController;

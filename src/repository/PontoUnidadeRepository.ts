@@ -1,4 +1,4 @@
-import { EntityRepository, Like, Repository, Raw } from 'typeorm';
+import { EntityRepository, Like, Repository, Raw, getConnection } from 'typeorm';
 
 import CrudRepository from './CrudRepository';
 
@@ -128,6 +128,21 @@ class PontoUnidadeRepository extends Repository<PontoUnidade> {
 
     public async deletePontoUnidade(id: number): Promise<any> {
         return await this.delete(id);
+    }
+
+    /**
+     * functions outside the normal CRUD
+     */
+
+    public async getTodosPontosPorUsuario(unidade_id: number): Promise<any> {
+        const pontoTotal = await getConnection()
+            .getRepository(PontoUnidade)
+            .createQueryBuilder('ponto_unidade')
+            .select('SUM(pontos)', 'pontos')
+            .where('unidade_id = :unidade_id ', { unidade_id })
+            .getRawOne();
+
+        return pontoTotal;
     }
 }
 

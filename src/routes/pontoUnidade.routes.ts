@@ -35,4 +35,12 @@ pontoUnidadeRouter.delete('/delete/:id', ensureAuthenticated, async (request, re
     return response.json(result);
 });
 
+/**
+ * outside normal CRUD
+ */
+pontoUnidadeRouter.get('/todospontos/:unidade_id', ensureAuthenticated, async (request, response) => {
+    const result = await pontoUnidadeController.getTodosPontosPorUnidade(Number(request.params.unidade_id));
+    return response.json(result);
+});
+
 export default pontoUnidadeRouter;

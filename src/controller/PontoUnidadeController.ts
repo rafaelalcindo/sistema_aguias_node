@@ -30,6 +30,11 @@ class PontoUnidadeController {
         const pontoUnidadeRepository = getCustomRepository(PontoUnidadeRepository);
         return pontoUnidadeRepository.deletePontoUnidade(pontoUnidade);
     }
+
+    public async getTodosPontosPorUnidade(unidade_id: number): Promise<any> {
+        const pontoUnidadeRepository = getCustomRepository(PontoUnidadeRepository);
+        return pontoUnidadeRepository.getTodosPontosPorUsuario(unidade_id);
+    }
 }
 
 export default PontoUnidadeController;

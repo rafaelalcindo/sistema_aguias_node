@@ -35,5 +35,13 @@ pontoIndividualRouter.delete('/delete/:id', ensureAuthenticated, async (request,
     return response.json(result);
 });
 
+/**
+ * outside normal CRUD
+ */
+pontoIndividualRouter.get('/todospontos/:usuario_id', ensureAuthenticated, async (request, response) => {
+    const result = await pontoIndividualController.getTodosPontosPorUsuario(Number(request.params.usuario_id));
+    return response.json(result);
+});
+
 export default pontoIndividualRouter;
 
